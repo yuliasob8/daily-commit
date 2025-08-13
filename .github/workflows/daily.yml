@@ -1,0 +1,19 @@
+name: Daily Commit
+
+on:
+  schedule:
+    - cron: '0 3 * * *' # Щодня о 07:00 UTC (10:00 за Києвом)
+  workflow_dispatch:
+
+jobs:
+  commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: |
+          date >> daily_log.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add daily_log.txt
+          git commit -m "Automated daily commit"
+          git push
